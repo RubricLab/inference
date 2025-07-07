@@ -92,5 +92,5 @@ async def generate(request: Request):
     return {"result": result}
     
 @app.get("/")
-    def handler(request: Request):
-        return {"result":"try POST with a prompt and stringified JSON schema"}
+def handler(request: Request):
+    return {"result":"try POST with a prompt and stringified JSON schema"}
