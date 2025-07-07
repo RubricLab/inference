@@ -90,3 +90,7 @@ async def generate(request: Request):
     result = generator(data["prompt"], max_new_tokens=500)
     
     return {"result": result}
+    
+@app.get("/")
+    def handler(request: Request):
+        return {"result":"try POST with a prompt and stringified JSON schema"}
