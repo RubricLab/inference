@@ -15,6 +15,6 @@ ENV UV_PYTHON_DOWNLOADS=never
 # Install with optimized flags
 RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation
 
-COPY src/handler.py .
+COPY src/handler.py test_input.json .
 
 CMD ["uv", "run", "/handler.py"]

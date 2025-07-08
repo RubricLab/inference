@@ -1,12 +1,21 @@
+import os
 import runpod
 import outlines
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 model_name = "osmosis-ai/Osmosis-Structure-0.6B"
 
+hf_token = os.getenv("HF_TOKEN")
+
 model = outlines.from_transformers(
-    AutoModelForCausalLM.from_pretrained(model_name),
-    AutoTokenizer.from_pretrained(model_name)
+    AutoModelForCausalLM.from_pretrained(
+        model_name,
+        token=hf_token
+    ),
+    AutoTokenizer.from_pretrained(
+        model_name,
+        token=hf_token
+    )
 )
 
 def handler(job):
