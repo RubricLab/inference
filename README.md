@@ -1,6 +1,6 @@
 # Outlines Demo
 
-This is a demo of the Outlines library.
+This is a demo of local structured outputs with the Outlines library.
 
 ## Installation
 
@@ -8,8 +8,14 @@ This is a demo of the Outlines library.
 uv pip install -e .
 ```
 
-## Usage
+## Server
 
 ```bash
-uv run main.py
+uv run src/handler.py
+```
+
+## Test
+
+```bash
+uv run test.py
 ```
