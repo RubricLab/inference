@@ -1,4 +1,3 @@
-# FROM python:3.11.1-slim
 FROM lmsysorg/sglang:latest
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -13,8 +12,9 @@ ENV UV_LINK_MODE=copy
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_PYTHON_DOWNLOADS=never
 
-# Install with optimized flags
-RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation
+# Install with optimized flags and ensure Python is available
+RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation && \
+    uv python install
 
 # Expose the port
 EXPOSE 8000
