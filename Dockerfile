@@ -9,6 +9,7 @@ RUN apt-get update && apt-get install -y \
 # Install uv using the official installation script
 RUN curl -LsSf https://astral.sh/uv/install.sh | sh
 ENV PATH="/root/.cargo/bin:$PATH"
+RUN source $HOME/.local/bin/env
 
 WORKDIR /
 
