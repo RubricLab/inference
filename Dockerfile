@@ -1,4 +1,5 @@
-FROM python:3.11.1-slim
+# FROM python:3.11.1-slim
+FROM lmsysorg/sglang:latest
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -15,6 +16,11 @@ ENV UV_PYTHON_DOWNLOADS=never
 # Install with optimized flags
 RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation
 
-COPY src/handler.py test_input.json .
+# Expose the port
+EXPOSE 30000
 
-CMD ["uv", "run", "/handler.py"]
+# Set environment variable for HuggingFace token (will be overridden at runtime)
+ENV HF_TOKEN=""
+
+# Use the same command as your current setup but with python3 -m for consistency
+CMD ["uv", "run", "sglang.launch_server", "--model-path", "Qwen/Qwen3-8B", "--host", "0.0.0.0", "--port", "30000", "--grammar-backend", "llguidance"]
