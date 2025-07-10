@@ -1,9 +1,9 @@
 FROM lmsysorg/sglang:latest
 
-EXPOSE 8000
-
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
+
+EXPOSE 8000
 
 RUN pip install sentencepiece
 
