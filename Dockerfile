@@ -32,7 +32,7 @@ EXPOSE 8000
 ENV HF_TOKEN=""
 
 # Install sglang for the server functionality
-RUN uv add sglang\[all]>=0.4.9.post1
+RUN uv add "sglang[all]>=0.4.9.post1"
 
 # Use uv run to execute the sglang server
 CMD ["uv", "run", "sglang.launch_server", "--model-path", "Qwen/Qwen3-8B", "--host", "0.0.0.0", "--port", "8000", "--grammar-backend", "llguidance"]
