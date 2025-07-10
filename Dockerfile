@@ -31,6 +31,8 @@ EXPOSE 8000
 # Set environment variable for HuggingFace token (will be overridden at runtime)
 ENV HF_TOKEN=""
 
+RUN uv run python -c "import torch; print(torch.version.cuda)"
+
 # Install sglang for the server functionality
 RUN uv pip install flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
 RUN uv pip install "sglang[all]>=0.4.9.post1"
