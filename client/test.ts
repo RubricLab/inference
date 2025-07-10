@@ -1,13 +1,11 @@
 import Ajv from "ajv";
 import { OpenAI } from "openai";
+import { env } from "./env";
 
 const ajv = new Ajv();
-
 const openai = new OpenAI({
-	apiKey: process.env.OPENAI_API_KEY,
-	// baseURL: "https://llrrjy0uxucsfn-8000.proxy.runpod.net/v1",
-	baseURL: "https://extended-jonell-rubric-1c426b40.koyeb.app/v1",
-	// baseURL: "https://api.runpod.ai/v2/jbgbwpo385qb2n/openai/v1",
+	apiKey: env.OPENAI_API_KEY,
+	baseURL: env.OPENAI_BASE_URL,
 });
 
 console.log("OpenAI initialized with base URL ", openai.baseURL);
@@ -86,7 +84,7 @@ const response = await openai.chat.completions.create({
 		},
 		{
 			role: "user",
-			content: "tell me about Toronto!",
+			content: "tell me about Canada!",
 			// "what is the capital of Latvia, its population, and the languages spoken in the country?",
 		},
 	],
