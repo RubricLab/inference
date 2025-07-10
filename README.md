@@ -1,21 +1,13 @@
 # Outlines Demo
 
-This is a demo of local structured outputs with the Outlines library.
+This is a demo of local structured outputs with SGLang.
 
-## Installation
+## Testing
 
-```bash
-uv pip install -e .
-```
+`cd client && bun i && touch .env`
 
-## Server
+Populate your **.env** with the base URL (`https://model.rubric.sh/v1`) and API key (`r_XXX`).
 
-```bash
-uv run src/handler.py
-```
+`bun run test.ts`
 
-## Test
-
-```bash
-uv run test.py
-```
+More to come.
