@@ -17,10 +17,10 @@ ENV UV_PYTHON_DOWNLOADS=never
 RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation
 
 # Expose the port
-EXPOSE 30000
+EXPOSE 8000
 
 # Set environment variable for HuggingFace token (will be overridden at runtime)
 ENV HF_TOKEN=""
 
 # Use the same command as your current setup but with python3 -m for consistency
-CMD ["uv", "run", "sglang.launch_server", "--model-path", "Qwen/Qwen3-8B", "--host", "0.0.0.0", "--port", "30000", "--grammar-backend", "llguidance"]
+CMD ["uv", "run", "sglang.launch_server", "--model-path", "Qwen/Qwen3-8B", "--host", "0.0.0.0", "--port", "8000", "--grammar-backend", "llguidance"]
