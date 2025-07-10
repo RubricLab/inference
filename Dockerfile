@@ -32,6 +32,7 @@ EXPOSE 8000
 ENV HF_TOKEN=""
 
 # Install sglang for the server functionality
+RUN uv pip install flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
 RUN uv pip install "sglang[all]>=0.4.9.post1"
 
 # Use uv run to execute the sglang server
