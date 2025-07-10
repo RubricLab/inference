@@ -3,7 +3,7 @@ import runpod
 import outlines
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
-model_name = "osmosis-ai/Osmosis-Structure-0.6B"
+model_name = "Qwen/Qwen3-14B"
 
 hf_token = os.getenv("HF_TOKEN")
 
