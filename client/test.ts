@@ -6,7 +6,8 @@ const ajv = new Ajv();
 const openai = new OpenAI({
 	apiKey: process.env.OPENAI_API_KEY,
 	// baseURL: "https://llrrjy0uxucsfn-8000.proxy.runpod.net/v1",
-	baseURL: "https://api.runpod.ai/v2/jbgbwpo385qb2n/openai/v1",
+	baseURL: "https://extended-jonell-rubric-1c426b40.koyeb.app/v1",
+	// baseURL: "https://api.runpod.ai/v2/jbgbwpo385qb2n/openai/v1",
 });
 
 console.log("OpenAI initialized with base URL ", openai.baseURL);
@@ -110,20 +111,20 @@ for await (const chunk of response) {
 
 const end = performance.now();
 
-console.log(
-	`\n${result.length} tokens in ${~~(end - start)} ms (${~~(
-		(result.length / ~~(end - start)) * 1000
-	)} tokens/s)`,
-);
-
 try {
 	const parsedResult = JSON.parse(result);
 	const validate = ajv.compile(schema);
 	const isValid = validate(parsedResult);
 
-	console.dir({ parsedResult }, { depth: null });
+	console.log(
+		`\n${result.length} tokens in ${~~(end - start)} ms (${~~(
+			(result.length / ~~(end - start)) * 1000
+		)} tokens/s)`,
+	);
+
 	if (isValid) {
 		console.log("✅ Response is valid according to the JSON schema");
+		console.dir({ parsedResult }, { depth: null });
 	} else {
 		console.log("❌ Response is invalid according to the JSON schema");
 		console.log("Validation errors:", validate.errors);
