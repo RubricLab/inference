@@ -22,9 +22,6 @@ ENV UV_LINK_MODE=copy
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_PYTHON_DOWNLOADS=never
 
-# Install Python 3.11+ using uv and install dependencies
-RUN uv python install 3.11
-
 # Install dependencies
 RUN uv sync --frozen --no-dev --no-install-project --no-build-isolation
 
