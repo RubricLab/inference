@@ -1,22 +1,32 @@
-FROM lmsysorg/sglang:latest
+FROM nvidia/cuda:12.1.0-base-ubuntu22.04
 
 # Set environment variables
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
 ENV PATH="/root/.bun/bin:$PATH"
+ENV PYTHONPATH="/:/workspace"
 
-# Install uv for faster Python dependency management
+# Install system dependencies
+RUN apt-get update -y \
+    && apt-get install -y \
+        python3-pip \
+        python3-venv \
+        curl \
+        git \
+    && rm -rf /var/lib/apt/lists/*
+
 RUN pip install uv
 
-# Install Bun
 RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 
-# Copy dependency files first for better layer caching
-COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
+COPY auth/package.json auth/bun.lock auth/tsconfig.json ./auth/
 COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies with uv
-RUN uv pip install sentencepiece --system
+# Install Python dependencies with uv (including SGLang)
+RUN uv pip install --system \
+    sentencepiece \
+    "sglang[all]" \
+    flashinfer -i https://flashinfer.ai/whl/cu121/torch2.3
 
 # Install Bun dependencies
 RUN bun i --production
