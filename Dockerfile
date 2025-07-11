@@ -19,10 +19,8 @@ RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-RUN uv python list
-RUN (python3 --version) & (python --version) & wait
-RUN uv python install
-ENV PATH="/root/.local/share/uv/python:$PATH"
+RUN uv python install 3.13.5
+ENV PATH="/root/.local/share/uv/python/cpython-3.13.5-linux-x86_64-gnu/bin:$PATH"
 RUN (python3 --version) & (python --version) & wait
 RUN uv pip install --system sentencepiece
 RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
