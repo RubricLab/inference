@@ -19,8 +19,7 @@ RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-RUN uv venv
-RUN . ./.venv/bin/activate
+RUN uv python install
 RUN uv pip install --system sentencepiece
 RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
 

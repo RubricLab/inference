@@ -41,7 +41,10 @@ const server = Bun.serve({
 			})
 		} catch (error) {
 			console.error(error)
-			return Response.json({ error: 'Unauthorized' }, { status: 401 })
+			return Response.json(
+				{ error: 'Internal Server Error', details: JSON.stringify(error) },
+				{ status: 500 }
+			)
 		}
 	}
 })
