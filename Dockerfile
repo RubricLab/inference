@@ -1,7 +1,6 @@
 ARG CUDA_VERSION=12.6.1
 FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu22.04
 
-# Set environment variables
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
 ENV PATH="/root/.bun/bin:$PATH"
@@ -9,7 +8,6 @@ ENV PYTHONPATH="/:/workspace"
 ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
-# Install system dependencies
 RUN apt-get update -y \
     && apt-get install -y \
         python3-pip \
@@ -20,27 +18,21 @@ RUN apt-get update -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install uv
-
 RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 
-COPY auth/package.json auth/bun.lock auth/tsconfig.json ./auth/
+COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies with uv
 RUN uv pip install --system sentencepiece
 RUN uv pip install --system "sglang[all]>=0.4.9.post1" && \
     uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
 
-# Install Bun dependencies
 RUN bun i --production
 
-# Copy application code (after dependencies for better caching)
 COPY auth/index.ts auth/env.ts ./
 
-# Expose port
 EXPOSE 3000
 
-# Start services
 CMD python -m sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
