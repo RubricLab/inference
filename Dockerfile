@@ -16,7 +16,7 @@ COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies with uv
-RUN uv pip install sentencepiece
+RUN uv pip install sentencepiece --system
 
 # Install Bun dependencies
 RUN bun i --production
