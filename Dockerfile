@@ -18,7 +18,7 @@ COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
 # TODO: remove
-RUN uv venv .venv
+RUN uv venv .venv --python 3.11
 ENV PATH=".venv/bin:$PATH"
 
 RUN uv pip install sentencepiece
