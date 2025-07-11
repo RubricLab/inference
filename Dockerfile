@@ -11,8 +11,8 @@ RUN apt-get update -y \
     && apt-get install -y --no-install-recommends curl unzip numactl \
     && rm -rf /var/lib/apt/lists/*
 
-RUN (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
-ENV PATH="/root/.cargo/bin:$PATH"
+RUN (pip install uv) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+# ENV PATH="/root/.cargo/bin:$PATH"
 ENV PATH="/root/.bun/bin:$PATH"
 
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
