@@ -1,24 +1,37 @@
 FROM lmsysorg/sglang:latest
 
+# Set environment variables
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
-
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 ENV PATH="/root/.bun/bin:$PATH"
 
-RUN pip install sentencepiece
+# Install uv for faster Python dependency management
+RUN pip install uv
 
-COPY auth/* ./
+# Install Bun
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 
-RUN bun i
+# Copy dependency files first for better layer caching
+COPY auth/package.json auth/bun.lock ./
+COPY pyproject.toml uv.lock ./
 
+# Install Python dependencies with uv
+RUN uv sync --frozen
+
+# Install Bun dependencies
+RUN bun install --frozen-lockfile
+
+# Copy application code (after dependencies for better caching)
+COPY auth/index.ts auth/env.ts ./
+
+# Expose port
 EXPOSE 3000
 
+# Start services
 CMD python -m sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
     --port 8000 \
     --grammar-backend llguidance & \
     sleep 10 && \
-    ls && \
     bun index.ts
