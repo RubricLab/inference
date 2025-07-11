@@ -27,12 +27,12 @@ RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --syst
 
 COPY auth/index.ts auth/env.ts ./
 
-EXPOSE 3000 8000
+EXPOSE 3000
 
-CMD python -m sglang.launch_server \
+CMD uv run sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
     --port 8000 \
     --grammar-backend llguidance & \
-    sleep 10 && \
+    sleep 5 && \
     bun index.ts
