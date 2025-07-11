@@ -9,7 +9,7 @@ ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends curl unzip python3-venv \
+    && apt-get install -y --no-install-recommends curl unzip python3-pip python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -19,9 +19,7 @@ RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-# RUN uv python install 3.13.5
-# ENV PATH="/root/.local/share/uv/python/cpython-3.13.5-linux-x86_64-gnu/bin:$PATH"
-RUN (python3 --version) & (python --version) & wait
+RUN (python --version) & wait
 RUN uv pip install --system sentencepiece
 RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
 
@@ -29,7 +27,7 @@ COPY auth/index.ts auth/env.ts ./
 
 EXPOSE 3000
 
-CMD python3 -m sglang.launch_server \
+CMD python -m sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
     --port 8000 \
