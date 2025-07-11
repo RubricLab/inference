@@ -20,6 +20,7 @@ COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
 RUN uv python install 3.11
+RUN ls /root/.local/share/uv
 ENV PATH="/root/.local/share/uv/python:$PATH"
 RUN python --version
 RUN uv pip install --system sentencepiece
