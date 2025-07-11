@@ -1,4 +1,4 @@
-import { env } from 'env'
+import { env } from './env'
 
 const SGLANG_URL = 'http://localhost:8000'
 

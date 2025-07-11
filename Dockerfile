@@ -27,7 +27,7 @@ RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --syst
 
 COPY auth/index.ts auth/env.ts ./
 
-EXPOSE 3000
+EXPOSE 3000 8000
 
 CMD python -m sglang.launch_server \
     --model-path Qwen/Qwen3-8B \

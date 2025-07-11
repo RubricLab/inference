@@ -1,14 +1,15 @@
-import Ajv from "ajv";
+import { Ajv } from "ajv";
 import { OpenAI } from "openai";
 import { env } from "./env";
 
-const ajv = new Ajv();
+const schemaValidator = new Ajv();
+
 const openai = new OpenAI({
 	apiKey: env.OPENAI_API_KEY,
 	baseURL: env.OPENAI_BASE_URL,
 });
 
-console.log("OpenAI initialized with base URL ", openai.baseURL);
+console.log("OpenAI initialized with base URL:", openai.baseURL);
 
 const schema = {
 	type: "object",
@@ -111,12 +112,12 @@ const end = performance.now();
 
 try {
 	const parsedResult = JSON.parse(result);
-	const validate = ajv.compile(schema);
+	const validate = schemaValidator.compile(schema);
 	const isValid = validate(parsedResult);
 
 	console.log(
 		`\n${result.length} tokens in ${~~(end - start)} ms (${~~(
-			(result.length / ~~(end - start)) * 1000 / 4
+			((result.length / ~~(end - start)) * 1000) / 4
 		)} tokens/s)`,
 	);
 
