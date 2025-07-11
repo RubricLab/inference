@@ -12,9 +12,7 @@ RUN apt-get update -y \
     && apt-get install -y --no-install-recommends curl unzip python3-pip python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
-
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
+RUN (pip install uv) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
 
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
