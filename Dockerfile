@@ -16,10 +16,10 @@ COPY auth/package.json auth/bun.lock ./
 COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies with uv
-RUN uv sync --frozen
+RUN uv pip install sentencepiece
 
 # Install Bun dependencies
-RUN bun install --frozen-lockfile
+RUN bun i --production
 
 # Copy application code (after dependencies for better caching)
 COPY auth/index.ts auth/env.ts ./
