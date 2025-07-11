@@ -1,5 +1,6 @@
 {
 	"dependencies": {
+		"@rubriclab/config": "^0.0.20",
 		"@t3-oss/env-core": "^0.13.8",
 		"ajv": "^8.17.1",
 		"openai": "^5.8.3",

@@ -3,8 +3,21 @@ FROM lmsysorg/sglang:latest
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
 
-EXPOSE 8000
+RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
+ENV PATH="/root/.bun/bin:$PATH"
 
 RUN pip install sentencepiece
 
-CMD python -m sglang.launch_server --model-path Qwen/Qwen3-8B --host 0.0.0.0 --port 8000 --grammar-backend llguidance --api-key $SERVER_API_KEY
+COPY package.json auth.ts ./
+
+RUN bun i
+
+EXPOSE 3000
+
+CMD python -m sglang.launch_server \
+    --model-path Qwen/Qwen3-8B \
+    --host 0.0.0.0 \
+    --port 8000 \
+    --grammar-backend llguidance & \
+    sleep 10 && \
+    bun auth.ts

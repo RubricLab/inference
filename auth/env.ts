@@ -1,10 +1,9 @@
 import { createEnv } from "@t3-oss/env-core";
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const env = createEnv({
 	server: {
-		OPENAI_BASE_URL: z.url(),
-		OPENAI_API_KEY: z.string().min(1),
+		SERVER_API_KEY: z.string().min(1),
 	},
 	clientPrefix: "",
 	client: {},

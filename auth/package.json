@@ -1,0 +1,17 @@
+{
+	"name": "structured-output-auth",
+	"module": "index.ts",
+	"type": "module",
+	"private": true,
+	"devDependencies": {
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "^5"
+	},
+	"dependencies": {
+		"@rubriclab/config": "^0.0.20",
+		"@t3-oss/env-core": "^0.13.8",
+		"zod": "^4.0.5"
+	}
+}

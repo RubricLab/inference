@@ -1,6 +1,0 @@
-{
-	"input": {
-		"prompt": "what is the capital of Latvia, its population, and the languages spoken in the country?",
-		"schema": "{\"type\":\"object\",\"definitions\":{\"Region\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"population\":{\"type\":\"number\"},\"sub_regions\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Region\"}}},\"required\":[\"name\"]},\"Language\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"is_official\":{\"type\":\"boolean\"},\"dialects\":{\"type\":\"array\",\"items\":{\"type\":\"string\"}}},\"required\":[\"name\",\"is_official\"]},\"CapitalCity\":{\"type\":\"object\",\"properties\":{\"name\":{\"type\":\"string\"},\"country\":{\"type\":\"string\"},\"population\":{\"type\":\"number\"},\"languages\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Language\"}},\"regions\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/Region\"}},\"neighboring_cities\":{\"type\":\"array\",\"items\":{\"$ref\":\"#/definitions/CapitalCity\"}}},\"required\":[\"name\",\"country\"]}},\"properties\":{\"answer\":{\"$ref\":\"#/definitions/CapitalCity\"}},\"required\":[\"answer\"]}"
-	}
-}
