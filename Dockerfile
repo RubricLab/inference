@@ -6,6 +6,7 @@ ENV SERVER_API_KEY=""
 ENV PATH="/root/.bun/bin:$PATH"
 ENV PYTHONPATH="/:/workspace"
 ENV CUDA_HOME="/usr/local/cuda-12"
+ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 # Install system dependencies
 RUN apt-get update -y \
