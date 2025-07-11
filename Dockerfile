@@ -27,7 +27,7 @@ COPY pyproject.toml uv.lock ./
 RUN uv pip install --system \
     sentencepiece \
     "sglang[all]" \
-    flashinfer -i https://flashinfer.ai/whl/cu121/torch2.3
+    flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.3
 
 # Install Bun dependencies
 RUN bun i --production
