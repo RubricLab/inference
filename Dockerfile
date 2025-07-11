@@ -23,11 +23,10 @@ RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./auth/
 COPY pyproject.toml uv.lock ./
 
-# Install Python dependencies with uv (including SGLang)
+# Install Python dependencies with uv
 RUN uv pip install --system sentencepiece
-RUN uv pip install --system \
-    "sglang[all]" \
-    flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.3
+RUN uv pip install --system "sglang[all]>=0.4.9.post1"
+RUN uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.3
 
 # Install Bun dependencies
 RUN bun i --production
