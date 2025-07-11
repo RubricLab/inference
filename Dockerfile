@@ -24,8 +24,8 @@ COPY auth/package.json auth/bun.lock auth/tsconfig.json ./auth/
 COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies with uv (including SGLang)
+RUN uv pip install --system sentencepiece
 RUN uv pip install --system \
-    sentencepiece \
     "sglang[all]" \
     flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.3
 
