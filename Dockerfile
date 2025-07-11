@@ -17,15 +17,19 @@ RUN (pip install uv) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-RUN (python --version) & wait
-RUN uv pip install --system sentencepiece
-RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
+# TODO: remove
+RUN uv venv .venv
+ENV PATH="/app/.venv/bin:$PATH"
+RUN python --version
+
+RUN uv pip install sentencepiece
+RUN (uv pip install "sglang[all]>=0.4.9.post1" && uv pip install flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
 
 COPY auth/index.ts auth/env.ts ./
 
 EXPOSE 3000
 
-CMD uv run --python 3.10.12 sglang.launch_server \
+CMD uv run sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
     --port 8000 \
