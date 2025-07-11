@@ -12,7 +12,7 @@ RUN pip install uv
 RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 
 # Copy dependency files first for better layer caching
-COPY auth/package.json auth/bun.lock ./
+COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies with uv
