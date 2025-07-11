@@ -5,7 +5,7 @@ ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
 ENV PATH="/root/.bun/bin:$PATH"
 ENV PYTHONPATH="/:/workspace"
-ENV CUDA_HOME="/usr/local/cuda"
+ENV CUDA_HOME="/usr/local/cuda-12"
 
 # Install system dependencies
 RUN apt-get update -y \
@@ -26,8 +26,8 @@ COPY pyproject.toml uv.lock ./
 
 # Install Python dependencies with uv
 RUN uv pip install --system sentencepiece
-RUN uv pip install --system "sglang[all]>=0.4.9.post1"
-RUN uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.3
+RUN uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu121/torch2.6
+RUN uv pip install --system "sglang[all]>=0.4.9.post1" 
 
 # Install Bun dependencies
 RUN bun i --production
