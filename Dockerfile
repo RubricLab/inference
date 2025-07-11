@@ -20,4 +20,5 @@ CMD python -m sglang.launch_server \
     --port 8000 \
     --grammar-backend llguidance & \
     sleep 10 && \
-    bun auth/index.ts
+    && ls \
+    bun index.ts
