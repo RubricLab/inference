@@ -1,4 +1,5 @@
-FROM nvidia/cuda:12.1.0-base-ubuntu22.04
+ARG CUDA_VERSION=12.6.1
+FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu22.04
 
 # Set environment variables
 ENV HF_TOKEN=""
