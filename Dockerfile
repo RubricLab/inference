@@ -9,7 +9,7 @@ ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends curl unzip python3 \
+    && apt-get install -y --no-install-recommends curl unzip python3-venv \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -19,7 +19,11 @@ RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-RUN python --version
+RUN uv python list
+RUN (python3 --version) & (python --version) & wait
+RUN uv python install
+ENV PATH="/root/.local/share/uv/python:$PATH"
+RUN (python3 --version) & (python --version) & wait
 RUN uv pip install --system sentencepiece
 RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
 
