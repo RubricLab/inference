@@ -3,21 +3,21 @@ FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu22.04
 
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
-ENV PATH="/root/.bun/bin:$PATH"
 ENV PYTHONPATH="/:/workspace"
 ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends curl unzip python3-pip python3-venv \
+    && apt-get install -y --no-install-recommends curl unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN (pip install uv) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+RUN (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+ENV PATH="/root/.cargo/bin:$PATH"
+ENV PATH="/root/.bun/bin:$PATH"
 
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
-# TODO: remove
 RUN uv venv .venv --python 3.10.12
 ENV PATH=".venv/bin:$PATH"
 
