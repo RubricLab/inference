@@ -13,6 +13,7 @@ RUN apt-get update -y \
         python3-venv \
         curl \
         git \
+        unzip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN pip install uv

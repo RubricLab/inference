@@ -116,7 +116,7 @@ try {
 
 	console.log(
 		`\n${result.length} tokens in ${~~(end - start)} ms (${~~(
-			(result.length / ~~(end - start)) * 1000
+			(result.length / ~~(end - start)) * 1000 / 4
 		)} tokens/s)`,
 	);
 
