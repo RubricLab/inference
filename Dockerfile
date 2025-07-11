@@ -5,6 +5,7 @@ ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
 ENV PATH="/root/.bun/bin:$PATH"
 ENV PYTHONPATH="/:/workspace"
+ENV CUDA_HOME="/usr/local/cuda"
 
 # Install system dependencies
 RUN apt-get update -y \
