@@ -17,17 +17,13 @@ RUN apt-get update -y \
         unzip \
     && rm -rf /var/lib/apt/lists/*
 
-RUN pip install uv
-RUN curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
+RUN (pip install uv) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
 
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
 COPY pyproject.toml uv.lock ./
 
 RUN uv pip install --system sentencepiece
-RUN uv pip install --system "sglang[all]>=0.4.9.post1" && \
-    uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
-
-RUN bun i --production
+RUN (uv pip install --system "sglang[all]>=0.4.9.post1" && uv pip install --system flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6) & (bun i --production) & wait
 
 COPY auth/index.ts auth/env.ts ./
 
