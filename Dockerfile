@@ -8,7 +8,7 @@ ENV PATH="/root/.bun/bin:$PATH"
 
 RUN pip install sentencepiece
 
-COPY auth/package.json auth/index.ts ./
+COPY auth/* ./auth/
 
 RUN bun i
 
@@ -21,4 +21,4 @@ CMD python -m sglang.launch_server \
     --grammar-backend llguidance & \
     sleep 10 && \
     ls && \
-    bun index.ts
+    bun auth/index.ts
