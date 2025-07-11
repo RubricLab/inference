@@ -19,7 +19,7 @@ COPY pyproject.toml uv.lock ./
 
 # TODO: remove
 RUN uv venv .venv
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH=".venv/bin:$PATH"
 RUN python --version
 
 RUN uv pip install sentencepiece
@@ -29,7 +29,7 @@ COPY auth/index.ts auth/env.ts ./
 
 EXPOSE 3000
 
-CMD uv run sglang.launch_server \
+CMD uv run --python 3.11 sglang.launch_server \
     --model-path Qwen/Qwen3-8B \
     --host 0.0.0.0 \
     --port 8000 \
