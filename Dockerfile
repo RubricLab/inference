@@ -8,7 +8,7 @@ ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 RUN apt-get update -y \
-    && apt-get install -y --no-install-recommends curl unzip numactl \
+    && apt-get install -y --no-install-recommends curl unzip numactl ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
 RUN (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
