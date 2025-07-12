@@ -11,10 +11,8 @@ RUN apt-get update -y \
     && apt-get install -y --no-install-recommends curl unzip numactl \
     && rm -rf /var/lib/apt/lists/*
 
-COPY --from=ghcr.io/astral-sh/uv:0.7.20 /uv /uvx /bin/
-
-RUN (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
-
+RUN (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+ENV PATH="/root/.local/bin/:$PATH"
 ENV PATH="/root/.bun/bin:$PATH"
 
 COPY auth/package.json auth/bun.lock auth/tsconfig.json ./
