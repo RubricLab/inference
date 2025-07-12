@@ -9,5 +9,3 @@ This is a demo of local structured outputs with SGLang.
 Populate your **.env** with the base URL (`https://model.rubric.sh/v1`) and API key (`r_XXX`).
 
 `bun index.ts`
-
-More to come.
