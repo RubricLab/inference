@@ -43,7 +43,6 @@ CMD python -m sglang.launch_server \
     --host 0.0.0.0 \
     --port 8000 \
     --reasoning-parser qwen3 \
-    # --json-model-override-args '{"rope_scaling":{"rope_type":"yarn","factor":4.0,"original_max_position_embeddings":32768}}'
     --grammar-backend llguidance & \
     bun auth/index.ts
  

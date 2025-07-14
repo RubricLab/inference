@@ -74,23 +74,23 @@ const start = performance.now();
 
 console.log("Starting...");
 
+const MAX_TOKENS = 8000;
+
 const response = await openai.chat.completions.create({
-	// model: "meta-llama/Llama-3.1-8B",
-	model: "Qwen/Qwen3-8B",
+	model: "Qwen/Qwen3-30B-A3B",
 	messages: [
 		{
 			role: "system",
 			content:
-				"You are a helpful assistant. Please answer according to the provided JSON schema.",
+				"You are a helpful assistant. Please first think then answer according to the provided JSON schema.",
 		},
 		{
 			role: "user",
-			content: "tell me about Canada!",
-			// "what is the capital of Latvia, its population, and the languages spoken in the country?",
+			content: "tell me about Latvia!",
 		},
 	],
 	stream: true,
-	max_tokens: 1000,
+	max_tokens: MAX_TOKENS,
 	temperature: 0.5,
 	response_format: {
 		type: "json_schema",
@@ -102,13 +102,20 @@ const response = await openai.chat.completions.create({
 });
 
 let result = "";
+let reasoning = "";
 for await (const chunk of response) {
 	const part = chunk.choices[0]?.delta.content || "";
 	result += part;
-	process.stdout.write(part);
+	const reasoningPart =
+		(chunk.choices[0]?.delta as any).reasoning_content || "";
+	reasoning += reasoningPart;
+	process.stdout.write(reasoningPart);
 }
 
 const end = performance.now();
+
+const CHARS_PER_TOKEN = 4;
+const MS_PER_S = 1000;
 
 try {
 	const parsedResult = JSON.parse(result);
@@ -116,8 +123,9 @@ try {
 	const isValid = validate(parsedResult);
 
 	console.log(
-		`\n${result.length} tokens in ${~~(end - start)} ms (${~~(
-			((result.length / ~~(end - start)) * 1000) / 4
+		`\n${result.length + reasoning.length} tokens in ${~~(end - start)} ms (${~~(
+			(((result.length + reasoning.length) / ~~(end - start)) * MS_PER_S) /
+				CHARS_PER_TOKEN
 		)} tokens/s)`,
 	);
 
