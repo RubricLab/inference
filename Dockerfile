@@ -39,7 +39,7 @@ EXPOSE 3000
 
 # Start inference & web servers
 CMD python -m sglang.launch_server \
-    --model-path Qwen/Qwen3-14B-AWQ \
+    --model-path Qwen/Qwen3-14B-FP8 \
     --host 0.0.0.0 \
     --port 8000 \
     --grammar-backend llguidance & \
