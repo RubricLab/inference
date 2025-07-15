@@ -10,8 +10,7 @@ ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
 
 # Add system deps
-RUN add-apt-repository universe \
-    && apt update -y \
+RUN apt update -y \
     && apt install -y --no-install-recommends curl unzip numactl ninja-build \
     && apt install -y python3.10-dev \
     && rm -rf /var/lib/apt/lists/*
