@@ -21,7 +21,7 @@ ENV PATH="/root/.local/bin/:$PATH"
 ENV PATH="/root/.bun/bin:$PATH"
 
 # Copy source files
-COPY auth/package.json auth/bun.lock auth/tsconfig.json auth/index.ts auth/env.ts ./auth
+COPY auth/package.json auth/bun.lock auth/tsconfig.json auth/index.ts auth/env.ts ./
 COPY pyproject.toml uv.lock ./
 
 # Start virtual env
@@ -31,7 +31,7 @@ ENV PATH=".venv/bin:$PATH"
 # Install deps
 RUN uv pip install sentencepiece
 RUN uv pip install "sglang[all]>=0.4.9.post1" && uv pip install flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
-RUN cd auth && bun i -p && cd ..
+RUN bun i -p
 
 # Open web server port
 EXPOSE 3000
@@ -43,5 +43,5 @@ CMD python -m sglang.launch_server \
     --port 8000 \
     --reasoning-parser qwen3 \
     --grammar-backend llguidance & \
-    bun auth/index.ts
+    bun index.ts
  
