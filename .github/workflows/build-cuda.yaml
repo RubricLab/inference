@@ -9,6 +9,7 @@ on:
     - '**.py'
     - 'Dockerfile'
     - '.github/workflows/build-cuda.yaml'
+    - 'auth/**'
 
 env:
   REGISTRY: ghcr.io
