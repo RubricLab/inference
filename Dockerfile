@@ -5,6 +5,7 @@ FROM nvidia/cuda:${CUDA_VERSION}-cudnn-devel-ubuntu22.04
 # Set up env
 ENV HF_TOKEN=""
 ENV SERVER_API_KEY=""
+ENV HF_HUB_ENABLE_HF_TRANSFER=1
 ENV PYTHONPATH="/:/workspace"
 ENV CUDA_HOME="/usr/local/cuda-12"
 ENV LD_LIBRARY_PATH="/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
