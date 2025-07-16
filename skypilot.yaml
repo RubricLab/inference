@@ -1,0 +1,69 @@
+resources:
+  accelerators: A100
+
+num_nodes: 1
+
+workdir: ./auth
+
+envs:
+  MODEL_NAME: Qwen/Qwen3-30B-A3B-FP8
+  HF_HUB_ENABLE_HF_TRANSFER: "1"
+  CUDA_HOME: "/usr/local/cuda-12"
+  LD_LIBRARY_PATH: "/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
+
+secrets:
+  HF_TOKEN: null
+  SERVER_API_KEY: null
+
+setup: |
+  # Disable Conda environment
+  echo "Disabling Conda environment..."
+  conda env list
+  conda deactivate
+  conda env list
+
+  # Install system dependencies
+  apt update -y
+  apt install -y --no-install-recommends curl unzip numactl ninja-build python3.10-dev
+  rm -rf /var/lib/apt/lists/*
+  
+  # Install uv and bun
+  (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+  export PATH="/root/.local/bin/:$PATH"
+  export PATH="/root/.bun/bin:$PATH"
+  
+  # Create virtual environment with uv
+  uv venv .venv --python 3.10.12
+  export PATH=".venv/bin:$PATH"
+
+  # List Python version to confirm we're using uv, not Conda
+  python --version
+  
+  # Install Python dependencies
+  uv pip install sentencepiece
+  uv pip install "sglang[all]>=0.4.9.post1"
+  uv pip install flashinfer-python -i https://flashinfer.ai/whl/cu126/torch2.6
+  
+  # Install Bun dependencies
+  bun i -p
+
+run: |
+  # Disable Conda environment
+  conda deactivate
+  
+  # Activate virtual environment
+  export PATH=".venv/bin:$PATH"
+  export PATH="/root/.local/bin/:$PATH"
+  export PATH="/root/.bun/bin:$PATH"
+  
+  echo 'Starting SGLang OpenAI API server and Bun web server...'
+  export PATH=$PATH:/sbin/
+  
+  # Start sglang server in background
+  python -m sglang.launch_server \
+    --model-path $MODEL_NAME \
+    --grammar-backend llguidance \
+    --reasoning-parser qwen3 \
+    --host 0.0.0.0 \
+    --port 8000 & \
+    bun index.ts
