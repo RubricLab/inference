@@ -2,6 +2,8 @@
 
 A minimalist open-source LLM inference stack with structured outputs using SGLang and minimal API key auth via a Bun web server for 3x higher throughput than FastAPI.
 
+The stack is currently highly-opinionated and likely to generalize and change.
+
 ## Quickstart
 
 The following assumes you're running on a Linux machine (likely in the cloud) with a GPU.
