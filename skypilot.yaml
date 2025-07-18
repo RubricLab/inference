@@ -1,5 +1,5 @@
 resources:
-  accelerators: A100
+  accelerators: H100
 
 num_nodes: 1
 
