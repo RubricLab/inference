@@ -9,12 +9,22 @@ The stack is currently highly-opinionated and likely to generalize and change.
 The following assumes you're running on a Linux machine (likely in the cloud) with a GPU.
 
 ### Docker
+
+To build and run the Docker image:
 ```bash
 docker build -t inference .
-docker run -p 3000:3000 -p 8000:8000 \
+docker run -p 3000:3000 \
   -e SERVER_API_KEY=your_api_key \
   -e HF_TOKEN=your_hf_token \
   inference
+```
+
+The pre-built Docker image is also available on [GHCR](https://github.com/rubriclab/inference/pkgs/container/inference) as `rubriclab/inference:latest`. To run the pre-built image:
+```bash
+docker run -p 3000:3000 \
+  -e SERVER_API_KEY=your_api_key \
+  -e HF_TOKEN=your_hf_token \
+  ghcr.io/rubriclab/inference:latest
 ```
 
 ### Skypilot
