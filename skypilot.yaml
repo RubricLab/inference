@@ -35,9 +35,6 @@ setup: |
   # Create virtual environment with uv
   uv venv .venv --python 3.10.12
   export PATH=".venv/bin:$PATH"
-
-  # List Python version to confirm we're using uv, not Conda
-  python --version
   
   # Install Python dependencies
   uv pip install sentencepiece
