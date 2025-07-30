@@ -1,0 +1,8 @@
+{
+	"biome.configurationPath": "./auth/biome.json",
+	"biome.enabled": true,
+	"biome.lsp.bin": "./auth/node_modules/.bin/biome",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "explicit"
+	}
+}

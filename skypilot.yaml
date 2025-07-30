@@ -6,7 +6,7 @@ num_nodes: 1
 workdir: ./auth
 
 envs:
-  BASE_MODEL: Qwen/Qwen3-8B
+  BASE_MODEL: Qwen/Qwen3-8B-AWQ
   HF_HUB_ENABLE_HF_TRANSFER: "1"
   CUDA_HOME: "/usr/local/cuda-12"
   LD_LIBRARY_PATH: "/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"

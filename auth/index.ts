@@ -3,7 +3,6 @@ import { env } from './env'
 const SGLANG_URL = 'http://localhost:8000'
 
 const server = Bun.serve({
-	port: process.env.PORT || 3000,
 	async fetch(req) {
 		const url = new URL(req.url)
 
@@ -30,23 +29,24 @@ const server = Bun.serve({
 
 			// Forward to SGLang
 			const response = await fetch(`${SGLANG_URL}${url.pathname}`, {
-				method: req.method,
+				body: req.method !== 'GET' ? await req.text() : null,
 				headers: { 'content-type': 'application/json' },
-				body: req.method !== 'GET' ? await req.text() : null
+				method: req.method
 			})
 
 			return new Response(response.body, {
-				status: response.status,
-				headers: response.headers
+				headers: response.headers,
+				status: response.status
 			})
 		} catch (error) {
 			console.error(error)
 			return Response.json(
-				{ error: 'Internal Server Error', details: JSON.stringify(error) },
+				{ details: JSON.stringify(error), error: 'Internal Server Error' },
 				{ status: 500 }
 			)
 		}
-	}
+	},
+	port: process.env.PORT || 3000
 })
 
 console.log(`Auth server running on port ${server.port}`)
