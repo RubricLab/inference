@@ -74,10 +74,10 @@ const start = performance.now();
 
 console.log("Starting...");
 
-const MAX_TOKENS = 8000;
+const MAX_TOKENS = 4000;
 
 const response = await openai.chat.completions.create({
-	model: "Qwen/Qwen3-30B-A3B",
+	model: "n/a",
 	messages: [
 		{
 			role: "system",

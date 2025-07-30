@@ -6,7 +6,7 @@ num_nodes: 1
 workdir: ./auth
 
 envs:
-  MODEL_NAME: Qwen/Qwen3-30B-A3B-FP8
+  BASE_MODEL: Qwen/Qwen3-8B
   HF_HUB_ENABLE_HF_TRANSFER: "1"
   CUDA_HOME: "/usr/local/cuda-12"
   LD_LIBRARY_PATH: "/usr/local/cuda-12/lib64:$LD_LIBRARY_PATH"
@@ -18,23 +18,23 @@ secrets:
 setup: |
   # Disable Conda environment
   echo "Disabling Conda environment..."
-  conda env list
   conda deactivate
-  conda env list
 
   # Install system dependencies
   apt update -y
-  apt install -y --no-install-recommends curl unzip numactl ninja-build python3.10-dev
-  rm -rf /var/lib/apt/lists/*
+  apt install -y --no-install-recommends curl unzip numactl ninja-build
   
-  # Install uv and bun
-  (curl -fsSL https://astral.sh/uv/install.sh | sh) & (curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18") & wait
+  # Install package managers
+  curl -fsSL https://astral.sh/uv/install.sh | sh
   export PATH="/root/.local/bin/:$PATH"
+  
+  curl -fsSL https://bun.sh/install | bash -s "bun-v1.2.18"
+  # sudo snap install bun-js # Hyperbolic
   export PATH="/root/.bun/bin:$PATH"
   
   # Create virtual environment with uv
   uv venv .venv --python 3.10.12
-  export PATH=".venv/bin:$PATH"
+  source .venv/bin/activate
   
   # Install Python dependencies
   uv pip install sentencepiece
@@ -49,16 +49,17 @@ run: |
   conda deactivate
   
   # Activate virtual environment
-  export PATH=".venv/bin:$PATH"
+  source .venv/bin/activate
   export PATH="/root/.local/bin/:$PATH"
   export PATH="/root/.bun/bin:$PATH"
   
-  echo 'Starting SGLang OpenAI API server and Bun web server...'
-  export PATH=$PATH:/sbin/
-  
   # Start sglang server in background
+  echo 'Starting SGLang OpenAI API server and Bun web server...'
   python -m sglang.launch_server \
-    --model-path $MODEL_NAME \
+    --model-path $BASE_MODEL \
+    --enable-lora \
+    --lora-paths lora0=RubricLabs/Qwen3-8B-uirl \
+    --disable-radix-cache \
     --grammar-backend llguidance \
     --reasoning-parser qwen3 \
     --host 0.0.0.0 \
